@@ -1,0 +1,4 @@
+MySQL user+pass
+admin
+News304838
+database-news-project.cy1gpustpocr.us-east-1.rds.amazonaws.com
