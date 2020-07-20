@@ -1,24 +1,21 @@
-import MySql from 'mysql'
+import MySql from 'mysql';
+import {Component} from "react";
+const mysql = require('mysql');
 
-
-export default class Backend{
-
+class Backend extends Component{
 //this needs to to move to backend (nodejs REST)
-     db = null;
-    connectToDB(){
 
+    db;
 
-        this.db = MySql.createConnection({
+    connectToDB() {
+        this.db = mysql.createConnection({
             host:'database-news-project.cy1gpustpocr.us-east-1.rds.amazonaws.com',
             user:'admin',
-            password:'News304838'
-        })
-
+            password:'News304838',
+            database:'NewsDB'
+        });
         this.db.connect(function(err) {
-               if(err)
-                    console.log(err);
-                else {
-                }
+               if(err) console.log(err);
         })
     }
 
@@ -26,18 +23,16 @@ export default class Backend{
         let categories = [
             {id:1,name:'Sports'},
             {id:2,name:'Politics'}];
-        /*this.db.query('SELECT * FROM categories', function (err, results, fields) {
-
+        this.connectToDB();
+        this.db.query("SELECT * FROM Categories", function (err, results, fields) {
             if (err)
                 console.log(err);
             else{
                 console.log("yay "+results);
                 categories = results;
             }
-
-        })*/
-
-        return
+        })
+        return categories;
     }
 
     getArticles() {
@@ -45,6 +40,15 @@ export default class Backend{
             {id:1,title:'Sports',category:1},
             {id:1,title:'Sports',category:1},
             {id:1,title:'Sports',category:1}]
+
+        this.db.query('SELECT * FROM Articles', function (err, results, fields) {
+            if (err)
+                console.log(err);
+            else{
+                console.log("yay "+results);
+                articles = results;
+            }
+        })
         return articles;
     }
 
@@ -52,3 +56,5 @@ export default class Backend{
         //delete query;
     }
 }
+
+export default Backend;
